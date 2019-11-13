@@ -1,4 +1,4 @@
-package emulator
+package nes
 
 import (
 	"bytes"
@@ -33,7 +33,7 @@ func (h GameHeader) CHRBankCount() uint8 {
 }
 
 func (h GameHeader) HasTrainer() bool {
-	return h[6]&0b00000100 != 0
+	return h[6]&0x04 != 0x00
 }
 
 func (h GameHeader) Flag6() uint8 {
@@ -41,7 +41,7 @@ func (h GameHeader) Flag6() uint8 {
 }
 
 func (h GameHeader) HasPlayChoice() bool {
-	return h[7]&0b00000010 != 0
+	return h[7]&0x02 != 0x00
 }
 
 func (h GameHeader) Flag7() uint8 {

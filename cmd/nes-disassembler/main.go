@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/cd1/nes-emulator/cpu"
+	"github.com/cd1/nes-emulator/parser"
 )
 
-var cfg cpu.DisassembleConfig
+var cfg parser.DisassembleConfig
 
 func init() {
 	flag.BoolVar(&cfg.DisplayMemoryAddress, "m", false, "Display the memory address in the beginning of each instruction")
@@ -18,7 +18,7 @@ func init() {
 func main() {
 	flag.Parse()
 
-	if err := cpu.Disassemble(os.Stdin, os.Stdout, cfg); err != nil {
+	if err := parser.Disassemble(os.Stdin, os.Stdout, cfg); err != nil {
 		fmt.Fprintf(os.Stderr, "Failed to disassemble the game file (%v).\n", err)
 		os.Exit(1)
 	}

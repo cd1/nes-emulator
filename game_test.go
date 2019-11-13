@@ -1,4 +1,4 @@
-package emulator
+package nes
 
 import (
 	"os"
