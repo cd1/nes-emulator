@@ -40,6 +40,7 @@ type baseOperation struct {
 	addressMode uint8
 	mnemonic    string
 	args        []uint8
+	unofficial  bool
 }
 
 func (op baseOperation) AddressMode() uint8 {
@@ -58,6 +59,10 @@ func (op baseOperation) Mnemonic() string {
 	return op.mnemonic
 }
 
+func (op baseOperation) IsUnofficial() bool {
+	return op.unofficial
+}
+
 func (op baseOperation) Size() uint8 {
 	switch op.AddressMode() {
 	case AddrModeAccumulator, AddrModeImplied:
@@ -72,7 +77,13 @@ func (op baseOperation) Size() uint8 {
 }
 
 func (op baseOperation) StringWithEnv(env OperationEnvironment) string {
-	mnemonic := " " + op.Mnemonic()
+	var mnemonic string
+
+	if op.IsUnofficial() {
+		mnemonic = "*" + op.Mnemonic()
+	} else {
+		mnemonic = " " + op.Mnemonic()
+	}
 
 	var address uint16
 	var operand uint8

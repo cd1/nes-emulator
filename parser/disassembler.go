@@ -91,6 +91,8 @@ func ConvertBinaryToOperation(r io.Reader) (cpu.Operation, error) {
 		op, err = cpu.NewCPXBinary(opCode, r)
 	case cpu.IsOpCodeValidCPY(opCode):
 		op, err = cpu.NewCPYBinary(opCode, r)
+	case cpu.IsOpCodeValidDCP(opCode):
+		op, err = cpu.NewDCPBinary(opCode, r)
 	case cpu.IsOpCodeValidDEC(opCode):
 		op, err = cpu.NewDECBinary(opCode, r)
 	case cpu.IsOpCodeValidDEX(opCode):
@@ -105,10 +107,14 @@ func ConvertBinaryToOperation(r io.Reader) (cpu.Operation, error) {
 		op, err = cpu.NewINXBinary(opCode, r)
 	case cpu.IsOpCodeValidINY(opCode):
 		op, err = cpu.NewINYBinary(opCode, r)
+	case cpu.IsOpCodeValidISB(opCode):
+		op, err = cpu.NewISBBinary(opCode, r)
 	case cpu.IsOpCodeValidJMP(opCode):
 		op, err = cpu.NewJMPBinary(opCode, r)
 	case cpu.IsOpCodeValidJSR(opCode):
 		op, err = cpu.NewJSRBinary(opCode, r)
+	case cpu.IsOpCodeValidLAX(opCode):
+		op, err = cpu.NewLAXBinary(opCode, r)
 	case cpu.IsOpCodeValidLDA(opCode):
 		op, err = cpu.NewLDABinary(opCode, r)
 	case cpu.IsOpCodeValidLDX(opCode):
@@ -129,14 +135,20 @@ func ConvertBinaryToOperation(r io.Reader) (cpu.Operation, error) {
 		op, err = cpu.NewPLABinary(opCode, r)
 	case cpu.IsOpCodeValidPLP(opCode):
 		op, err = cpu.NewPLPBinary(opCode, r)
+	case cpu.IsOpCodeValidRLA(opCode):
+		op, err = cpu.NewRLABinary(opCode, r)
 	case cpu.IsOpCodeValidROL(opCode):
 		op, err = cpu.NewROLBinary(opCode, r)
 	case cpu.IsOpCodeValidROR(opCode):
 		op, err = cpu.NewRORBinary(opCode, r)
+	case cpu.IsOpCodeValidRRA(opCode):
+		op, err = cpu.NewRRABinary(opCode, r)
 	case cpu.IsOpCodeValidRTI(opCode):
 		op, err = cpu.NewRTIBinary(opCode, r)
 	case cpu.IsOpCodeValidRTS(opCode):
 		op, err = cpu.NewRTSBinary(opCode, r)
+	case cpu.IsOpCodeValidSAX(opCode):
+		op, err = cpu.NewSAXBinary(opCode, r)
 	case cpu.IsOpCodeValidSBC(opCode):
 		op, err = cpu.NewSBCBinary(opCode, r)
 	case cpu.IsOpCodeValidSEC(opCode):
@@ -145,6 +157,10 @@ func ConvertBinaryToOperation(r io.Reader) (cpu.Operation, error) {
 		op, err = cpu.NewSEDBinary(opCode, r)
 	case cpu.IsOpCodeValidSEI(opCode):
 		op, err = cpu.NewSEIBinary(opCode, r)
+	case cpu.IsOpCodeValidSLO(opCode):
+		op, err = cpu.NewSLOBinary(opCode, r)
+	case cpu.IsOpCodeValidSRE(opCode):
+		op, err = cpu.NewSREBinary(opCode, r)
 	case cpu.IsOpCodeValidSTA(opCode):
 		op, err = cpu.NewSTABinary(opCode, r)
 	case cpu.IsOpCodeValidSTX(opCode):
@@ -196,7 +212,7 @@ func ConvertOperationToText(op cpu.Operation, w io.Writer, cfg DisassembleConfig
 			str = fmt.Sprintf("%02X %02X %02X", op.Code(), args[0], args[1])
 		}
 
-		if _, err := fmt.Fprintf(w, "%-8v  ", str); err != nil {
+		if _, err := fmt.Fprintf(w, "%-8v ", str); err != nil {
 			return err
 		}
 	}

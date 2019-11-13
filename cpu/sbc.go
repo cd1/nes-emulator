@@ -19,6 +19,9 @@ const (
 	OpCodeSBCZeroX     = 0xF5
 	OpCodeSBCAbsoluteY = 0xF9
 	OpCodeSBCAbsoluteX = 0xFD
+
+	// unofficial opcodes
+	OpCodeUnSBCImmediate0 = 0xEB
 )
 
 func IsOpCodeValidSBC(opCode uint8) bool {
@@ -29,7 +32,8 @@ func IsOpCodeValidSBC(opCode uint8) bool {
 		opCode == OpCodeSBCIndirectY ||
 		opCode == OpCodeSBCZeroX ||
 		opCode == OpCodeSBCAbsoluteY ||
-		opCode == OpCodeSBCAbsoluteX
+		opCode == OpCodeSBCAbsoluteX ||
+		opCode == OpCodeUnSBCImmediate0
 }
 
 func IsMnemonicValidSBC(mnemonic string) bool {
@@ -136,6 +140,19 @@ func NewSBCAbsoluteX(absoluteAddress uint16) *SBC {
 	}
 }
 
+// 0xEB: SBC #$NN
+func NewUnSBCImmediate0(value uint8) *SBC {
+	return &SBC{
+		baseOperation{
+			code:        OpCodeUnSBCImmediate0,
+			addressMode: AddrModeImmediate,
+			mnemonic:    OpMnemonicSBC,
+			args:        []uint8{value},
+			unofficial:  true,
+		},
+	}
+}
+
 func NewSBCBinary(opCode uint8, data io.Reader) (*SBC, error) {
 	switch opCode {
 	case OpCodeSBCIndirectX:
@@ -202,6 +219,14 @@ func NewSBCBinary(opCode uint8, data io.Reader) (*SBC, error) {
 		}
 
 		return NewSBCAbsoluteX(addr), nil
+	case OpCodeUnSBCImmediate0:
+		var addr uint8
+
+		if err := binary.Read(data, binary.LittleEndian, &addr); err != nil {
+			return nil, err
+		}
+
+		return NewUnSBCImmediate0(addr), nil
 	default:
 		return nil, InvalidOpCodeError{
 			OpCode: opCode,

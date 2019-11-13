@@ -93,6 +93,8 @@ func convertTextToOperation(line string) (cpu.Operation, error) {
 		op, err = cpu.NewCPXFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidCPY(mnemonic):
 		op, err = cpu.NewCPYFromBytes(addrMode, arg0, arg1)
+	case cpu.IsMnemonicValidDCP(mnemonic):
+		op, err = cpu.NewDCPFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidDEC(mnemonic):
 		op, err = cpu.NewDECFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidDEX(mnemonic):
@@ -107,10 +109,14 @@ func convertTextToOperation(line string) (cpu.Operation, error) {
 		op, err = cpu.NewINXFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidINY(mnemonic):
 		op, err = cpu.NewINYFromBytes(addrMode, arg0, arg1)
+	case cpu.IsMnemonicValidISB(mnemonic):
+		op, err = cpu.NewISBFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidJMP(mnemonic):
 		op, err = cpu.NewJMPFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidJSR(mnemonic):
 		op, err = cpu.NewJSRFromBytes(addrMode, arg0, arg1)
+	case cpu.IsMnemonicValidLAX(mnemonic):
+		op, err = cpu.NewLAXFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidLDA(mnemonic):
 		op, err = cpu.NewLDAFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidLDX(mnemonic):
@@ -131,14 +137,20 @@ func convertTextToOperation(line string) (cpu.Operation, error) {
 		op, err = cpu.NewPLAFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidPLP(mnemonic):
 		op, err = cpu.NewPLPFromBytes(addrMode, arg0, arg1)
+	case cpu.IsMnemonicValidRLA(mnemonic):
+		op, err = cpu.NewRLAFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidROL(mnemonic):
 		op, err = cpu.NewROLFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidROR(mnemonic):
 		op, err = cpu.NewRORFromBytes(addrMode, arg0, arg1)
+	case cpu.IsMnemonicValidRRA(mnemonic):
+		op, err = cpu.NewRRAFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidRTI(mnemonic):
 		op, err = cpu.NewRTIFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidRTS(mnemonic):
 		op, err = cpu.NewRTSFromBytes(addrMode, arg0, arg1)
+	case cpu.IsMnemonicValidSAX(mnemonic):
+		op, err = cpu.NewSAXFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidSBC(mnemonic):
 		op, err = cpu.NewSBCFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidSEC(mnemonic):
@@ -147,6 +159,10 @@ func convertTextToOperation(line string) (cpu.Operation, error) {
 		op, err = cpu.NewSEDFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidSEI(mnemonic):
 		op, err = cpu.NewSEIFromBytes(addrMode, arg0, arg1)
+	case cpu.IsMnemonicValidSLO(mnemonic):
+		op, err = cpu.NewSLOFromBytes(addrMode, arg0, arg1)
+	case cpu.IsMnemonicValidSRE(mnemonic):
+		op, err = cpu.NewSREFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidSTA(mnemonic):
 		op, err = cpu.NewSTAFromBytes(addrMode, arg0, arg1)
 	case cpu.IsMnemonicValidSTX(mnemonic):
